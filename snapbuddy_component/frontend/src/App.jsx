@@ -14,6 +14,8 @@ import BookingDetailsScreen from "./screens/BookingDetailsScreen";
 import ReviewModal from "./components/ReviewModal";
 import MyReviewModal from "./components/MyReviewModal";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export default function App() {
   const [screen, setScreen] = useState("home");
   const [prevScreen, setPrevScreen] = useState(null);
@@ -37,6 +39,9 @@ export default function App() {
   const [reviewComment, setReviewComment] = useState("");
   const [reviewIssues, setReviewIssues] = useState([]);
   const [showMyReview, setShowMyReview] = useState(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analyzeError, setAnalyzeError] = useState("");
+
 
   const checklist = useMemo(() => [["เตรียมชุดพร้อมแล้ว", false], ["ยืนยันเวลาแล้ว", true], ["ปักหมุดสถานที่แล้ว", true], ["บันทึกรูป reference แล้ว", false]], []);
 
@@ -62,11 +67,59 @@ export default function App() {
 
   const nav = (next, prev) => { setPrevScreen(prev || screen); setScreen(next); };
   const toggleAddon = (name) => setAddons((prev) => prev.includes(name) ? prev.filter((x) => x !== name) : [...prev, name]);
-  const generateTags = () => {
-    if (!vibeText.trim() && !refImages.length) return;
-    const next = refImages.length && !vibeText.trim() ? ["#soft", "#editorial", "#portrait", "#warmtones"] : suggestTagsFromVibe(vibeText);
-    setSelectedTags((prev) => (prev.length ? prev : next));
+
+  const generateTags = async () => {
+    if (!vibeText.trim() && !refImages.length) return [];
+
+    setIsAnalyzing(true);
+    setAnalyzeError("");
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/generate-tags`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text: vibeText.trim() || "Reference images only",
+          max_tags: 6,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorBody = await response.text();
+        throw new Error(errorBody || "Analyze failed");
+      }
+
+      const data = await response.json();
+      const apiTags = Array.isArray(data?.tags)
+        ? data.tags
+            .filter((tag) => typeof tag === "string")
+            .map((tag) => tag.trim())
+            .filter(Boolean)
+            .map((tag) => (tag.startsWith("#") ? tag : `#${tag.replace(/\s+/g, "")}`))
+        : [];
+
+      const fallbackTags = refImages.length && !vibeText.trim()
+        ? ["#soft", "#editorial", "#portrait", "#warmtones"]
+        : suggestTagsFromVibe(vibeText);
+
+      const next = apiTags.length ? apiTags : fallbackTags;
+      setSelectedTags(next);
+      return next;
+    } catch (error) {
+      console.error("generateTags failed", error);
+      const fallbackTags = refImages.length && !vibeText.trim()
+        ? ["#soft", "#editorial", "#portrait", "#warmtones"]
+        : suggestTagsFromVibe(vibeText);
+      setSelectedTags(fallbackTags);
+      setAnalyzeError("ต่อ backend ไม่สำเร็จ เลยใช้แท็กแนะนำในเครื่องแทน");
+      return fallbackTags;
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
+
   const addTag = (raw) => {
     const c = raw.trim();
     if (!c) return;
@@ -101,7 +154,7 @@ export default function App() {
     window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=20260413T083000/20260413T100000&details=${details}&location=${loc}`, "_blank");
   };
 
-  const sharedProps = { screen, setScreen, prevScreen, nav, liked, setLiked, vibeText, setVibeText, selectedTags, setSelectedTags, tagInput, setTagInput, refImages, setRefImages, fileInputRef, occasion, setOccasion, budget, setBudget, groupSize, setGroupSize, addons, toggleAddon, tab, setTab, progress, bookings, setBookings, selectedBooking, setSelectedBooking, checklist, generateTags, addTag, removeTag, goGenerating, openReview, addToGCal, setShowMyReview };
+  const sharedProps = { screen, setScreen, prevScreen, nav, liked, setLiked, vibeText, setVibeText, selectedTags, setSelectedTags, tagInput, setTagInput, refImages, setRefImages, fileInputRef, occasion, setOccasion, budget, setBudget, groupSize, setGroupSize, addons, toggleAddon, tab, setTab, progress, bookings, setBookings, selectedBooking, setSelectedBooking, checklist, generateTags, addTag, removeTag, goGenerating, openReview, addToGCal, setShowMyReview, isAnalyzing, analyzeError, setAnalyzeError };
 
   const screenMap = {
     home: <HomeScreen {...sharedProps} topDestinations={topDestinations} vibes={vibes} />,

@@ -1,19 +1,270 @@
 import Header from "../components/Header";
 
 const btnStyle = { background: "linear-gradient(90deg,#7a8c72,#a8b5a0)" };
-const btnPrimary = "w-full py-3.5 rounded-2xl font-semibold text-white flex items-center justify-center gap-2";
+const btnPrimary =
+  "w-full py-3.5 rounded-2xl font-semibold text-white flex items-center justify-center gap-2";
 
-export default function RefineScreen({ setScreen, prevScreen, vibeText, refImages, selectedTags, tagInput, setTagInput, generateTags, addTag, removeTag, budget, setBudget, groupSize, setGroupSize, addons, toggleAddon, goGenerating }) {
+export default function RefineScreen({
+  setScreen,
+  prevScreen,
+  vibeText,
+  refImages,
+  selectedTags,
+  tagInput,
+  setTagInput,
+  generateTags,
+  addTag,
+  removeTag,
+  budget,
+  setBudget,
+  groupSize,
+  setGroupSize,
+  addons,
+  toggleAddon,
+  goGenerating,
+  isAnalyzing,
+  analyzeError,
+}) {
   return (
-    <div style={{ height: "100%", overflowY: "auto", paddingBottom: "80px" }}>
-      <Header title="ปรับแต่ง Shoot" onBack={() => setScreen(prevScreen || "home")} />
+    <div
+      style={{ height: "100%", overflowY: "auto", paddingBottom: "80px" }}
+    >
+      <Header
+        title="ปรับแต่ง Shoot"
+        onBack={() => setScreen(prevScreen || "home")}
+      />
+
       <div className="px-5 py-6 space-y-7">
-        {(vibeText.trim() || refImages.length > 0 || selectedTags.length > 0) && <div className="rounded-3xl p-4 space-y-4" style={{ background: "rgba(255,255,255,0.7)" }}><div><div className="text-xs uppercase tracking-wider text-stone-500 mb-1">แท็ก mood ที่แนะนำ</div><div className="text-xs text-stone-400">แก้ไขก่อนจับคู่ได้เลย</div></div>{selectedTags.length > 0 ? <div className="flex flex-wrap gap-2">{selectedTags.map((tag) => <span key={tag} className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-white text-xs font-medium" style={{ background: "#7a8c72" }}>{tag}<button onClick={() => removeTag(tag)} className="rounded-full p-0.5"><svg width="12" height="12" fill="none" stroke="white" strokeWidth="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" /></svg></button></span>)}</div> : <button onClick={generateTags} className="px-3 py-2 rounded-xl text-stone-700 text-xs font-semibold" style={{ background: "#f0e6d8" }}>แนะนำแท็กจาก vibe ของคุณ</button>}<div className="flex gap-2"><input value={tagInput} onChange={(e) => setTagInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addTag(tagInput); } }} placeholder="เพิ่มแท็ก mood" className="flex-1 rounded-2xl px-3 py-2.5 text-sm outline-none" style={{ background: "rgba(240,230,216,0.6)" }} /><button onClick={() => addTag(tagInput)} className="px-4 rounded-2xl text-stone-700 text-sm font-semibold" style={{ background: "#f0e6d8" }}>เพิ่ม</button></div></div>}
-        <div><div className="flex justify-between mb-2"><span className="uppercase tracking-wider text-xs text-stone-500">งบประมาณ</span><span className="font-semibold text-xs" style={{ color: "#7a8c72" }}>บาท</span></div><div className="relative"><span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-stone-500">฿</span><input type="number" min={0} value={budget} onChange={(e) => setBudget(Number(e.target.value || 0))} className="w-full rounded-2xl pl-8 pr-4 py-3 text-sm outline-none" style={{ background: "rgba(240,230,216,0.6)" }} /></div></div>
-        <div><div className="uppercase tracking-wider text-xs text-stone-500 mb-2">จำนวนคน</div><div className="flex items-center gap-3"><button onClick={() => setGroupSize((s) => Math.max(1, s - 1))} className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background: "#f0e6d8" }}><svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 12h14" /></svg></button><div className="flex-1 h-1 rounded-full overflow-hidden" style={{ background: "#f0e6d8" }}><div className="h-full" style={{ width: `${Math.min(100, groupSize * 25)}%`, background: "#7a8c72" }} /></div><button onClick={() => setGroupSize((s) => Math.min(4, s + 1))} className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background: "#f0e6d8" }}><svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></svg></button></div></div>
-        <div><div className="uppercase tracking-wider text-xs text-stone-500 mb-2">บริการเสริม</div><div className="flex flex-wrap gap-2">{["💄 แต่งหน้า","👗 ชุด","🎀 พรอพ"].map((a) => <button key={a} onClick={() => toggleAddon(a)} className="px-4 py-2 rounded-full text-xs font-medium" style={{ background: addons.includes(a) ? "#fecdd3" : "#f0e6d8", color: "#292524" }}>{a}</button>)}</div></div>
+        {(vibeText.trim() || refImages.length > 0 || selectedTags.length > 0) && (
+          <div
+            className="rounded-3xl p-4 space-y-4"
+            style={{ background: "rgba(255,255,255,0.7)" }}
+          >
+            <div>
+              <div className="text-xs uppercase tracking-wider text-stone-500 mb-1">
+                ผลวิเคราะห์ vibe
+              </div>
+              <div className="text-xs text-stone-400">
+                แก้ไขก่อนจับคู่ได้เลย
+              </div>
+            </div>
+
+            {vibeText.trim() ? (
+              <div
+                className="rounded-2xl px-4 py-3 text-sm leading-6 text-stone-700"
+                style={{ background: "rgba(240,230,216,0.6)" }}
+              >
+                {vibeText}
+              </div>
+            ) : null}
+
+            {selectedTags.length > 0 ? (
+              <div className="flex flex-wrap gap-2">
+                {selectedTags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-white text-xs font-medium"
+                    style={{ background: "#7a8c72" }}
+                  >
+                    {tag}
+                    <button
+                      type="button"
+                      onClick={() => removeTag(tag)}
+                      className="rounded-full p-0.5"
+                    >
+                      <svg
+                        width="12"
+                        height="12"
+                        fill="none"
+                        stroke="white"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M18 6L6 18M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </span>
+                ))}
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={generateTags}
+                className="px-3 py-2 rounded-xl text-stone-700 text-xs font-semibold"
+                style={{ background: "#f0e6d8" }}
+              >
+                แนะนำแท็กจาก vibe ของคุณ
+              </button>
+            )}
+
+            <div className="flex gap-2 flex-wrap">
+              <input
+                value={tagInput}
+                onChange={(e) => setTagInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    addTag(tagInput);
+                  }
+                }}
+                placeholder="เพิ่มแท็ก mood"
+                className="flex-1 min-w-[180px] rounded-2xl px-3 py-2.5 text-sm outline-none"
+                style={{ background: "rgba(240,230,216,0.6)" }}
+              />
+
+              <button
+                type="button"
+                onClick={() => addTag(tagInput)}
+                className="px-4 rounded-2xl text-stone-700 text-sm font-semibold"
+                style={{ background: "#f0e6d8" }}
+              >
+                เพิ่ม
+              </button>
+
+              <button
+                type="button"
+                onClick={generateTags}
+                disabled={isAnalyzing}
+                className="px-4 rounded-2xl text-sm font-semibold text-white"
+                style={{ background: isAnalyzing ? "#d6d3d1" : "#7a8c72" }}
+              >
+                {isAnalyzing ? "Analyzing..." : "Analyze again"}
+              </button>
+            </div>
+
+            {analyzeError ? (
+              <div
+                className="rounded-2xl px-4 py-3 text-sm text-amber-900"
+                style={{ background: "#fef3c7" }}
+              >
+                {analyzeError}
+              </div>
+            ) : null}
+          </div>
+        )}
+
+        <div>
+          <div className="flex justify-between mb-2">
+            <span className="uppercase tracking-wider text-xs text-stone-500">
+              งบประมาณ
+            </span>
+            <span
+              className="font-semibold text-xs"
+              style={{ color: "#7a8c72" }}
+            >
+              บาท
+            </span>
+          </div>
+
+          <div className="relative">
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-stone-500">
+              ฿
+            </span>
+            <input
+              type="number"
+              min={0}
+              value={budget}
+              onChange={(e) => setBudget(Number(e.target.value || 0))}
+              className="w-full rounded-2xl pl-8 pr-4 py-3 text-sm outline-none"
+              style={{ background: "rgba(240,230,216,0.6)" }}
+            />
+          </div>
+        </div>
+
+        <div>
+          <div className="uppercase tracking-wider text-xs text-stone-500 mb-2">
+            จำนวนคน
+          </div>
+
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setGroupSize((s) => Math.max(1, s - 1))}
+              className="w-9 h-9 rounded-full flex items-center justify-center"
+              style={{ background: "#f0e6d8" }}
+            >
+              <svg
+                width="16"
+                height="16"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path d="M5 12h14" />
+              </svg>
+            </button>
+
+            <div
+              className="flex-1 h-1 rounded-full overflow-hidden"
+              style={{ background: "#f0e6d8" }}
+            >
+              <div
+                className="h-full"
+                style={{
+                  width: `${Math.min(100, groupSize * 25)}%`,
+                  background: "#7a8c72",
+                }}
+              />
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setGroupSize((s) => Math.min(4, s + 1))}
+              className="w-9 h-9 rounded-full flex items-center justify-center"
+              style={{ background: "#f0e6d8" }}
+            >
+              <svg
+                width="16"
+                height="16"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path d="M12 5v14M5 12h14" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <div className="uppercase tracking-wider text-xs text-stone-500 mb-2">
+            บริการเสริม
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            {["💄 แต่งหน้า", "👗 ชุด", "🎀 พรอพ"].map((a) => (
+              <button
+                key={a}
+                type="button"
+                onClick={() => toggleAddon(a)}
+                className="px-4 py-2 rounded-full text-xs font-medium"
+                style={{
+                  background: addons.includes(a) ? "#fecdd3" : "#f0e6d8",
+                  color: "#292524",
+                }}
+              >
+                {a}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
-      <div className="p-4 border-t border-stone-200" style={{ background: "#faf6f1" }}><button onClick={goGenerating} className={btnPrimary} style={btnStyle}>สร้างแผน Shoot ของฉัน</button></div>
+
+      <div
+        className="p-4 border-t border-stone-200"
+        style={{ background: "#faf6f1" }}
+      >
+        <button
+          type="button"
+          onClick={goGenerating}
+          className={btnPrimary}
+          style={btnStyle}
+        >
+          สร้างแผน Shoot ของฉัน
+        </button>
+      </div>
     </div>
   );
 }
