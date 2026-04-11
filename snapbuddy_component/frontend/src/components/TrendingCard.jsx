@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 
 export default function TrendingCard({
   id,
@@ -7,27 +7,44 @@ export default function TrendingCard({
   title,
   tags,
   cafe,
-  liked,
-  setLiked,
   nav,
 }) {
   const videoRef = useRef(null);
+  const containerRef = useRef(null);
 
-  const handleEnter = () => {
-    videoRef.current?.play();
-  };
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!videoRef.current) return;
 
-  const handleLeave = () => {
-    videoRef.current?.pause();
-    videoRef.current.currentTime = 0;
-  };
+        if (entry.isIntersecting) {
+          videoRef.current.play();
+        } else {
+          videoRef.current.pause();
+          videoRef.current.currentTime = 0;
+        }
+      },
+      {
+        threshold: 0.6, // ต้องเห็น 60% ถึงจะเล่น
+      }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => {
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current);
+      }
+    };
+  }, []);
 
   return (
     <div
+      ref={containerRef}
       key={id}
-      onMouseEnter={handleEnter}
-      onMouseLeave={handleLeave}
-      className="group rounded-3xl overflow-hidden shadow-sm bg-white"
+      className="rounded-3xl overflow-hidden shadow-sm bg-white"
     >
       <div
         className="relative"
@@ -38,23 +55,16 @@ export default function TrendingCard({
           backgroundPosition: "center",
         }}
       >
-        {/* VIDEO LAYER */}
         <video
           ref={videoRef}
           src={video}
           muted
           loop
           playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          className="absolute inset-0 w-full h-full object-cover"
         />
 
-        {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-
-        {/* buttons + content (เหมือนเดิม) */}
-        <div className="absolute right-3 top-1/2 -translate-y-1/2 flex flex-col gap-2">
-          {/* ... */}
-        </div>
 
         <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
           <div className="font-bold text-lg">{title}</div>
