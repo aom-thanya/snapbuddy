@@ -13,7 +13,7 @@ export default function IntentScreen({ setScreen, vibeText, setVibeText, refImag
         <div><label className="text-xs uppercase tracking-wider text-stone-500 block mb-3">โอกาส</label><div className="flex flex-wrap gap-2">{["🎂 วันเกิด","📸 คอนเทนต์","💕 เดต","☕ ทั่วไป"].map((o) => <button key={o} onClick={() => setOccasion(o)} className="px-4 py-2 rounded-full text-xs font-medium" style={{ background: occasion===o?"#a8b5a0":"#f0e6d8", color: occasion===o?"white":"#57534e" }}>{o}</button>)}</div></div>
       </div>
       <div className="p-4 border-t border-stone-200" style={{ background: "#faf6f1" }}>
-        <button disabled={!vibeText.trim() && !refImages.length} onClick={() => { generateTags(); nav("refine", "intent"); }} className={btnPrimary} style={vibeText.trim() || refImages.length ? btnStyle : { background: "#d6d3d1" }}>สร้าง Shoot ของฉัน</button>
+        <button disabled={!vibeText.trim() && !refImages.length} onClick={() => { generateTags(); nav("refine", "intent"); }} className={btnPrimary} style={vibeText.trim() || refImages.length ? btnStyle : { background: "#d6d3d1" }}>Analyze your vibe ✨</button>
       </div>
     </div>
   );
