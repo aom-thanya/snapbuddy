@@ -26,7 +26,7 @@ export default function HomeScreen({
         }
       />
 
-      <div className="px-4 pt-5 sm:pt-7 pb-24">
+      <div className="px-4 pt-5 sm:pt-7 pb-24 max-w-[960px] mx-auto w-full">
         <div className="mb-6 sm:mb-7 text-center flex flex-col items-center justify-center">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight max-w-[320px] sm:max-w-[700px]">
             ได้รูปที่ใช่
