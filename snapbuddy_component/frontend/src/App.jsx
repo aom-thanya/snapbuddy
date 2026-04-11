@@ -20,7 +20,7 @@ export default function App() {
   const [screen, setScreen] = useState("home");
   const [prevScreen, setPrevScreen] = useState(null);
   const [liked, setLiked] = useState({});
-  const [vibeText, setVibeText] = useState("เช้าๆ ในคาเฟ่สไตล์เกาหลีนุ่มๆ โทนมัทฉะ แสงธรรมชาติ ผ้าห่มอบอุ่น…");
+  const [vibeText, setVibeText] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
   const [refImages, setRefImages] = useState([]);
