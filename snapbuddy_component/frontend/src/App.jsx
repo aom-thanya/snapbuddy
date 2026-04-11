@@ -115,8 +115,8 @@ export default function App() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", background: "#faf6f1", display: "flex", alignItems: "center", justifyContent: "center", padding: "24px", overflow: "hidden" }}>
-      <div style={{ width: "100%", maxWidth: "390px", height: "780px", borderRadius: "32px", overflow: "hidden", boxShadow: "0 25px 60px rgba(0,0,0,0.15)", border: "1px solid rgba(0,0,0,0.05)", background: "#faf6f1", position: "relative", display: "flex", flexDirection: "column" }}>
+    <div style={{ minHeight: "100vh", background: "#fff", display: "flex", alignItems: "center", justifyContent: "center", padding: "24px", overflow: "hidden" }}>
+      <div style={{ width: "100%", height: "100vh", overflow: "hidden", boxShadow: "0 25px 60px rgba(0,0,0,0.15)", border: "1px solid rgba(0,0,0,0.05)", background: "#fff", position: "relative", display: "flex", flexDirection: "column" }}>
         {screenMap[screen]}
         <ReviewModal reviewStep={reviewStep} setReviewStep={setReviewStep} reviewRating={reviewRating} setReviewRating={setReviewRating} reviewVibe={reviewVibe} setReviewVibe={setReviewVibe} reviewComment={reviewComment} setReviewComment={setReviewComment} reviewIssues={reviewIssues} toggleIssue={toggleIssue} issueOptions={issueOptions} selectedBooking={selectedBooking} submitReview={submitReview} />
         <MyReviewModal open={showMyReview} onClose={() => setShowMyReview(false)} selectedBooking={selectedBooking} />
