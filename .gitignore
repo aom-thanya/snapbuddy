@@ -3,3 +3,7 @@ venv/
 __pycache__/
 *.pyc
 .env
+.DS_Store
+.DS_Store
+snapbuddy_component/frontend/src/.DS_Store
+snapbuddy_component/frontend/dist
