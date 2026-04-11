@@ -7,7 +7,6 @@ import "./index.css";
 function FrameApp() {
   React.useEffect(() => {
     Streamlit.setComponentReady();
-    // Streamlit.setFrameHeight(860);
   }, []);
   return <App />;
 }
