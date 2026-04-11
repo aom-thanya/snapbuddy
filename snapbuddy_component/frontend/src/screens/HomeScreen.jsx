@@ -53,7 +53,7 @@ export default function HomeScreen({
 
         <section className="mt-8">
           <h2 className="text-xl sm:text-2xl font-bold mb-4">🔥 กำลังนิยม</h2>
-          <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {vibes.map((v) => TrendingCard({ ...v, nav, setLiked, liked }))}
           </div>
         </section>
