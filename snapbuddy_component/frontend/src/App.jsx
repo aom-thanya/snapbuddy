@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { vibes, buddies, initialBookings, issueOptions } from "./data/mockData";
+import { buddies, initialBookings, issueOptions } from "./data/mockData";
 import { topDestinations } from "./data/topDestinations";
+import { vibes } from "./data/vibes";
 import { suggestTagsFromVibe } from "./utils/vibeTags";
 import HomeScreen from "./screens/HomeScreen";
 import IntentScreen from "./screens/IntentScreen";
