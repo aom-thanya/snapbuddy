@@ -8,10 +8,10 @@ export default function BookingDetailsScreen({ setScreen, screen, setShowLogout,
   const currentStepIndex = steps.indexOf(selectedBooking.status) !== -1 ? steps.indexOf(selectedBooking.status) : 0;
 
   return (
-    <div className="flex h-full w-full bg-stone-50 overflow-hidden">
+    <div className="flex h-full w-full bg-white overflow-hidden">
       <Sidebar screen={screen} setScreen={setScreen} setShowLogout={setShowLogout} />
       
-      <div className="flex-1 h-full flex flex-col bg-stone-50 lg:bg-white relative overflow-hidden">
+      <div className="flex-1 h-full flex flex-col bg-white relative overflow-hidden">
         <div className="lg:hidden shrink-0">
           <Header title="รายละเอียดการจอง" onBack={() => setScreen("bookings")} />
         </div>

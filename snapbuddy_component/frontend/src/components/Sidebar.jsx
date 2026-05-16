@@ -12,7 +12,7 @@ export default function Sidebar({ screen, setScreen, setShowLogout }) {
       <nav className="flex-1 space-y-2">
         <button 
           onClick={() => setScreen("profile")}
-          className={`w-full text-left px-4 py-3 rounded-xl flex items-center gap-4 transition-colors ${screen === "profile" ? "bg-stone-100 font-semibold" : "hover:bg-stone-50 text-stone-600 font-medium"}`}
+          className={`w-full text-left px-4 py-3 rounded-xl flex items-center gap-4 transition-colors ${screen === "profile" ? "bg-stone-100 text-stone-900 font-semibold" : "hover:bg-stone-50 text-stone-600 font-medium"}`}
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
           <span className="text-[15px]">โปรไฟล์</span>
@@ -20,7 +20,7 @@ export default function Sidebar({ screen, setScreen, setShowLogout }) {
 
         <button 
           onClick={() => setScreen("bookings")}
-          className={`w-full text-left px-4 py-3 rounded-xl flex items-center gap-4 transition-colors ${screen === "bookings" ? "bg-stone-100 font-semibold" : "hover:bg-stone-50 text-stone-600 font-medium"}`}
+          className={`w-full text-left px-4 py-3 rounded-xl flex items-center gap-4 transition-colors ${screen === "bookings" ? "bg-stone-100 text-stone-900 font-semibold" : "hover:bg-stone-50 text-stone-600 font-medium"}`}
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
           <span className="text-[15px]">การจองของฉัน</span>

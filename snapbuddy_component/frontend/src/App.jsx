@@ -179,7 +179,7 @@ export default function App() {
   };
 
   return (
-    <div style={{ width: "100%", height: "100vh", overflow: "hidden" }}>
+    <div className="bg-white" style={{ width: "100%", height: "100vh", overflow: "hidden" }}>
       {screenMap[screen]}
       <ReviewModal reviewStep={reviewStep} setReviewStep={setReviewStep} reviewRating={reviewRating} setReviewRating={setReviewRating} reviewVibe={reviewVibe} setReviewVibe={setReviewVibe} reviewComment={reviewComment} setReviewComment={setReviewComment} reviewIssues={reviewIssues} toggleIssue={toggleIssue} issueOptions={issueOptions} selectedBooking={selectedBooking} submitReview={submitReview} />
       <MyReviewModal open={showMyReview} onClose={() => setShowMyReview(false)} selectedBooking={selectedBooking} />

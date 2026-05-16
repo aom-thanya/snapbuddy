@@ -14,7 +14,7 @@ export default function HomeScreen({
   return (
     <div
       style={{ height: "100%", overflowY: "auto" }}
-      className="text-stone-800"
+      className="text-stone-800 bg-white"
     >
       <Header
         right={<AvatarDropdown setScreen={setScreen} />}

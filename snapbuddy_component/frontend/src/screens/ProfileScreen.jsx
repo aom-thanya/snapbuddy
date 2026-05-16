@@ -4,10 +4,10 @@ import AvatarDropdown from "../components/AvatarDropdown";
 
 export default function ProfileScreen({ setScreen, screen }) {
   return (
-    <div className="flex h-full w-full bg-stone-50 overflow-hidden">
+    <div className="flex h-full w-full bg-white overflow-hidden">
       <Sidebar screen={screen} setScreen={setScreen} />
       
-      <div className="flex-1 h-full overflow-y-auto bg-stone-50 lg:bg-white relative">
+      <div className="flex-1 h-full overflow-y-auto bg-white relative">
         <div className="lg:hidden">
           <Header title="โปรไฟล์" onBack={() => setScreen("home")} />
         </div>
