@@ -1,6 +1,7 @@
 import Header from "../components/Header";
 import TrendingCard from "../components/TrendingCard";
 import TopDestinations from "../components/TopDestinations";
+import AvatarDropdown from "../components/AvatarDropdown";
 
 export default function HomeScreen({
   nav,
@@ -16,24 +17,7 @@ export default function HomeScreen({
       className="text-stone-800"
     >
       <Header
-        right={
-          <button
-            onClick={() => setScreen("bookings")}
-            className="w-10 h-10 rounded-full bg-rose-100 flex items-center justify-center"
-          >
-            <svg
-              width="16"
-              height="16"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <circle cx="12" cy="8" r="4" />
-              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
-            </svg>
-          </button>
-        }
+        right={<AvatarDropdown setScreen={setScreen} />}
       />
 
       <div className="px-4 pt-5 sm:pt-7 lg:pt-10 pb-24 max-w-[960px] mx-auto w-full">

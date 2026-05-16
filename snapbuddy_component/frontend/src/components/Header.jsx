@@ -5,7 +5,7 @@ export default function Header({ title = "SnapBuddy", onBack, right }) {
         background: "rgba(255,255,255,0.85)",
         backdropFilter: "blur(8px)",
       }}
-      className="sticky top-0 z-20 px-4 sm:px-6 h-14 sm:h-16 flex items-center gap-3"
+      className="sticky top-0 z-20 px-4 sm:px-6 pt-5 pb-3 sm:pt-6 sm:pb-4 flex items-center gap-3 shadow-sm border-b border-stone-100/50"
     >
       {onBack ? (
         <button
@@ -17,12 +17,7 @@ export default function Header({ title = "SnapBuddy", onBack, right }) {
           </svg>
         </button>
       ) : (
-        <div
-          className="w-8 h-8 sm:w-9 sm:h-9 rounded-2xl flex items-center justify-center text-white text-sm sm:text-lg"
-          style={{ background: "linear-gradient(135deg,#a8b5a0,#7a8c72)" }}
-        >
-          ✦
-        </div>
+        <img src="/logo.png" alt="SnapBuddy Logo" className="w-8 h-8 sm:w-9 sm:h-9 object-contain" />
       )}
 
       {/* TITLE */}

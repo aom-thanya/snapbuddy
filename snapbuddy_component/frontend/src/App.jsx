@@ -14,6 +14,8 @@ import BookingsScreen from "./screens/BookingsScreen";
 import BookingDetailsScreen from "./screens/BookingDetailsScreen";
 import ReviewModal from "./components/ReviewModal";
 import MyReviewModal from "./components/MyReviewModal";
+import ProfileScreen from "./screens/ProfileScreen";
+import LogoutModal from "./components/LogoutModal";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -155,7 +157,13 @@ export default function App() {
     window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=20260413T083000/20260413T100000&details=${details}&location=${loc}`, "_blank");
   };
 
-  const sharedProps = { screen, setScreen, prevScreen, nav, liked, setLiked, vibeText, setVibeText, selectedTags, setSelectedTags, tagInput, setTagInput, refImages, setRefImages, fileInputRef, occasion, setOccasion, budget, setBudget, groupSize, setGroupSize, addons, toggleAddon, tab, setTab, progress, bookings, setBookings, selectedBooking, setSelectedBooking, checklist, generateTags, addTag, removeTag, goGenerating, openReview, addToGCal, setShowMyReview, isAnalyzing, analyzeError, setAnalyzeError };
+  const [showLogout, setShowLogout] = useState(false);
+  const handleLogout = () => {
+    setShowLogout(false);
+    setScreen("home");
+  };
+
+  const sharedProps = { screen, setScreen, prevScreen, nav, liked, setLiked, vibeText, setVibeText, selectedTags, setSelectedTags, tagInput, setTagInput, refImages, setRefImages, fileInputRef, occasion, setOccasion, budget, setBudget, groupSize, setGroupSize, addons, toggleAddon, tab, setTab, progress, bookings, setBookings, selectedBooking, setSelectedBooking, checklist, generateTags, addTag, removeTag, goGenerating, openReview, addToGCal, setShowMyReview, isAnalyzing, analyzeError, setAnalyzeError, setShowLogout };
 
   const screenMap = {
     home: <HomeScreen {...sharedProps} topDestinations={topDestinations} vibes={vibes} />,
@@ -167,6 +175,7 @@ export default function App() {
     booking: <BookingScreen {...sharedProps} />,
     bookings: <BookingsScreen {...sharedProps} />,
     bookingDetails: <BookingDetailsScreen {...sharedProps} />,
+    profile: <ProfileScreen {...sharedProps} />,
   };
 
   return (
@@ -174,6 +183,7 @@ export default function App() {
       {screenMap[screen]}
       <ReviewModal reviewStep={reviewStep} setReviewStep={setReviewStep} reviewRating={reviewRating} setReviewRating={setReviewRating} reviewVibe={reviewVibe} setReviewVibe={setReviewVibe} reviewComment={reviewComment} setReviewComment={setReviewComment} reviewIssues={reviewIssues} toggleIssue={toggleIssue} issueOptions={issueOptions} selectedBooking={selectedBooking} submitReview={submitReview} />
       <MyReviewModal open={showMyReview} onClose={() => setShowMyReview(false)} selectedBooking={selectedBooking} />
+      <LogoutModal open={showLogout} onClose={() => setShowLogout(false)} onConfirm={handleLogout} />
     </div>
   );
 }

@@ -2,7 +2,7 @@ import streamlit as st
 from snapbuddy_component import snapbuddy_component
 
 # ตั้งค่า layout เต็มจอ
-st.set_page_config(layout="wide")
+st.set_page_config(page_title="SnapBuddy | ได้รูปที่ใช่ ใน vibe ที่คุณอยากเป็น✨", page_icon="📸", layout="wide")
 
 # ซ่อน UI ของ Streamlit ทั้งหมด
 st.markdown("""
