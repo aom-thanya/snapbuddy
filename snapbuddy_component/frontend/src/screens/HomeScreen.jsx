@@ -36,7 +36,7 @@ export default function HomeScreen({
         {/* Search bar */}
         <div className="mb-8 lg:mb-10">
           <button
-            onClick={() => nav("intent", "home")}
+            onClick={() => nav("intent", "home", "search")}
             className="w-full bg-white rounded-full pl-5 pr-2 py-2.5 lg:py-3 shadow-sm border border-stone-200 flex items-center justify-between text-left"
           >
             <span className="text-sm sm:text-base lg:text-lg text-stone-400 truncate">

@@ -82,7 +82,7 @@ export default function TrendingCard({
           </div>
 
           <button
-            onClick={() => nav("refine", "home")}
+            onClick={() => nav("intent", "home", "image")}
             className="mt-3 px-4 py-2 rounded-full bg-white text-stone-800 text-xs font-semibold"
           >
             ลอง vibe นี้ ✨

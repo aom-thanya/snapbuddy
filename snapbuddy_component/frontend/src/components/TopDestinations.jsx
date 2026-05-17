@@ -4,7 +4,7 @@ export default function TopDestinations({ nav, topDestinations }) {
       {topDestinations.map((d) => (
         <div
           key={d.id}
-          onClick={() => nav("refine", "home")}
+          onClick={() => nav("intent", "home", "location")}
           className="w-[140px] sm:w-[180px] lg:w-[250px] h-40 sm:h-48 lg:h-56 rounded-3xl p-4 relative shadow-sm cursor-pointer overflow-hidden flex-shrink-0 snap-start"
           style={{
             backgroundImage: `url(${d.image})`,

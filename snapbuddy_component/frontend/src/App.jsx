@@ -5,10 +5,8 @@ import { vibes } from "./data/vibes";
 import { suggestTagsFromVibe } from "./utils/vibeTags";
 import HomeScreen from "./screens/HomeScreen";
 import IntentScreen from "./screens/IntentScreen";
-import RefineScreen from "./screens/RefineScreen";
 import GeneratingScreen from "./screens/GeneratingScreen";
 import PlanScreen from "./screens/PlanScreen";
-import MatchingScreen from "./screens/MatchingScreen";
 import BookingScreen from "./screens/BookingScreen";
 import BookingsScreen from "./screens/BookingsScreen";
 import BookingDetailsScreen from "./screens/BookingDetailsScreen";
@@ -44,6 +42,12 @@ export default function App() {
   const [showMyReview, setShowMyReview] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analyzeError, setAnalyzeError] = useState("");
+  const [intentSource, setIntentSource] = useState("search");
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
+  const [locationArea, setLocationArea] = useState("");
+  const [note, setNote] = useState("");
+  const [selectedPackage, setSelectedPackage] = useState(null);
 
 
   const checklist = useMemo(() => [["เตรียมชุดพร้อมแล้ว", false], ["ยืนยันเวลาแล้ว", true], ["ปักหมุดสถานที่แล้ว", true], ["บันทึกรูป reference แล้ว", false]], []);
@@ -68,7 +72,11 @@ export default function App() {
     return () => [link1, link2, link3, style].forEach((el) => document.head.contains(el) && document.head.removeChild(el));
   }, []);
 
-  const nav = (next, prev) => { setPrevScreen(prev || screen); setScreen(next); };
+  const nav = (next, prev, source = null) => {
+    if (source) setIntentSource(source);
+    setPrevScreen(prev || screen);
+    setScreen(next);
+  };
   const toggleAddon = (name) => setAddons((prev) => prev.includes(name) ? prev.filter((x) => x !== name) : [...prev, name]);
 
   const generateTags = async () => {
@@ -163,15 +171,13 @@ export default function App() {
     setScreen("home");
   };
 
-  const sharedProps = { screen, setScreen, prevScreen, nav, liked, setLiked, vibeText, setVibeText, selectedTags, setSelectedTags, tagInput, setTagInput, refImages, setRefImages, fileInputRef, occasion, setOccasion, budget, setBudget, groupSize, setGroupSize, addons, toggleAddon, tab, setTab, progress, bookings, setBookings, selectedBooking, setSelectedBooking, checklist, generateTags, addTag, removeTag, goGenerating, openReview, addToGCal, setShowMyReview, isAnalyzing, analyzeError, setAnalyzeError, setShowLogout };
+  const sharedProps = { screen, setScreen, prevScreen, nav, liked, setLiked, vibeText, setVibeText, selectedTags, setSelectedTags, tagInput, setTagInput, refImages, setRefImages, fileInputRef, occasion, setOccasion, budget, setBudget, groupSize, setGroupSize, addons, toggleAddon, tab, setTab, progress, bookings, setBookings, selectedBooking, setSelectedBooking, checklist, generateTags, addTag, removeTag, goGenerating, openReview, addToGCal, setShowMyReview, isAnalyzing, analyzeError, setAnalyzeError, setShowLogout, intentSource, setIntentSource, date, setDate, time, setTime, locationArea, setLocationArea, note, setNote, selectedPackage, setSelectedPackage };
 
   const screenMap = {
     home: <HomeScreen {...sharedProps} topDestinations={topDestinations} vibes={vibes} />,
     intent: <IntentScreen {...sharedProps} />,
-    refine: <RefineScreen {...sharedProps} />,
     generating: <GeneratingScreen progress={progress} />,
     plan: <PlanScreen {...sharedProps} />,
-    matching: <MatchingScreen {...sharedProps} buddies={buddies} />,
     booking: <BookingScreen {...sharedProps} />,
     bookings: <BookingsScreen {...sharedProps} />,
     bookingDetails: <BookingDetailsScreen {...sharedProps} />,
